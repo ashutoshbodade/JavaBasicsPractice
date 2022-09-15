@@ -1,6 +1,6 @@
 package arrays;
 
-public class SubArrays {
+public class SubArraySumPrefix {
     public static void main(String[] args) {
 
         int[] numbers = {2,4,6,8,10};
@@ -16,27 +16,35 @@ public class SubArrays {
         int ts = 0;
         int maxSum = Integer.MIN_VALUE;
         int minSum = Integer.MAX_VALUE;
+        int[] prefix = new int[numbers.length];
+
+        prefix[0] = numbers[0];
+        //calculate prefix array
+        for(int i=1;i<prefix.length;i++){
+            prefix[i] = prefix[i-1]+numbers[i];
+        }
+
+        
+
         for (int i = 0; i < numbers.length; i++) {
+            int start = i;
 
            for (int j = i ;j<numbers.length;j++){
-               int sum = 0;
-               for (int k = i;k<=j;k++){
-                   System.out.print(numbers[k]+" ");
-                   sum += numbers[k];
-               }
-               System.out.println();
-               //System.out.println("sum = "+sum);
+               int curSum = 0;
+               int end = j;
+
+
+               curSum = start == 0 ? prefix[end] : prefix[end] - prefix[start-1];
                ts++;
 
-               if(sum>maxSum){
-                   maxSum = sum;
+               if(curSum>maxSum){
+                   maxSum = curSum;
                }
-               if(sum<minSum){
-                   minSum = sum;
+               if(curSum<minSum){
+                   minSum = curSum;
                }
 
            }
-            System.out.println();
 
         }
         System.out.println("total subarrays = "+ts);
